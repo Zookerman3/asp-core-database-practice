@@ -1,30 +1,33 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using ToDoList.Models;
 
 namespace ToDoList
 {
-  class Program
-  {
-    static void Main(string[] args)
+    class Program
     {
-      WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+        static void Main(string[] args)
+        {
+            WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-      builder.Services.AddControllersWithViews();
+            builder.Services.AddControllersWithViews();
 
-      WebApplication app = builder.Build();
+            DBConfiguration.ConnectionString = builder.Configuration["ConnectionStrings:DefaultConnection"];
 
-    //   app.UseDeveloperExceptionPage();
-      app.UseHttpsRedirection();
-      app.UseStaticFiles();
+            WebApplication app = builder.Build();
 
-      app.UseRouting();
+            //   app.UseDeveloperExceptionPage();
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
 
-      app.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}"
-      );
+            app.UseRouting();
 
-      app.Run();
+            app.MapControllerRoute(
+              name: "default",
+              pattern: "{controller=Home}/{action=Index}/{id?}"
+            );
+
+            app.Run();
+        }
     }
-  }
 }
